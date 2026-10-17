@@ -31,8 +31,8 @@
 
 ---
 
-> *"Stop burning CI minutes waiting on remote pipelines just to find a missing env variable, a broken import, or a Vercel serverless function limit. Catch it locally on your laptop in 3 seconds before you push."*  
-> — **@Wukong on X**
+> *"local build+test before ci is such a clean idea. vibeci is gonna save a bunch of wasted pipeline runs tbh"*  
+> — **[@WukongNumber1 on X](https://x.com/WukongNumber1)**
 
 ---
 
