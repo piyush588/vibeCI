@@ -125,6 +125,7 @@ VibeCI is designed to provide useful verification even when a project has few or
 ### 1. Static Health and Environment Preflight
 *Find problems that can be detected without starting the application.*
 - **Platform pre-flight checks:** Catch deployment platform limits before push (e.g., Vercel Serverless Function limits on Hobby vs Pro, preventing wasted CI pipelines).
+- **Netlify configuration:** Check `netlify.toml` syntax and HTTP status codes in `_redirects` and `public/_redirects`. Errors include file, line and column locations. This check does not validate every Netlify routing option.
 - **Secret leak detection:** Scan for potentially exposed credentials and hardcoded secrets (AWS keys, GitHub tokens, database passwords).
 - **Environment preflight:** Compare recognized environment variable references (`process.env`, `os.environ`) with `.env.example`.
 - **Type & lint checks:** Run applicable linting and type-checking tools when available (`tsc --noEmit`, `mypy`, `ruff`, `eslint`, `biome`).

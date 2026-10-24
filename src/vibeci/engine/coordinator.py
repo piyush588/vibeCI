@@ -17,6 +17,7 @@ from typing import Callable, List, Optional
 
 from vibeci.config import VibeConfig
 from vibeci.detectors import discover_checks
+from vibeci.detectors.netlify import audit_netlify_config
 from vibeci.detectors.vercel import audit_vercel_functions
 from vibeci.engine.build.build_verifier import BuildVerifier
 from vibeci.engine.diff.analyzer import ChangedFilesResult, GitChangeAnalyzer
@@ -179,6 +180,20 @@ class VerificationEngine:
                 results.append(vercel_res)
                 if on_complete:
                     on_complete(vercel_res)
+
+            netlify_res = audit_netlify_config(self.root_dir)
+            if netlify_res:
+                netlify_def = CheckDefinition(
+                    name=netlify_res.name,
+                    layer=CheckLayer.STATIC_HEALTH,
+                    check_type=CheckType.ENV,
+                    description="Netlify configuration syntax and redirect status codes",
+                )
+                if on_start:
+                    on_start(netlify_def)
+                results.append(netlify_res)
+                if on_complete:
+                    on_complete(netlify_res)
 
             # 3. Static type and lint checks
             static_checks = [c for c in discovered_checks if c.check_type in (CheckType.LINT, CheckType.TYPECHECK)]

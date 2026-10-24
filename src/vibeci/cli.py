@@ -15,6 +15,7 @@ from typing import List, Optional
 
 from vibeci.config import VibeConfig, create_starter_config
 from vibeci.detectors import discover_checks
+from vibeci.detectors.netlify import audit_netlify_config
 from vibeci.detectors.vercel import audit_vercel_functions
 from vibeci.engine.coordinator import VerificationEngine
 from vibeci.formatters.console import ConsoleFormatter
@@ -449,6 +450,12 @@ def handle_doctor(args: argparse.Namespace) -> int:
     vercel_res = audit_vercel_functions(root_dir)
     if vercel_res:
         print(f"\nPlatform Pre-Flight (Vercel): {vercel_res.summary}")
+
+    netlify_res = audit_netlify_config(root_dir)
+    if netlify_res:
+        print(f"\nPlatform Pre-Flight (Netlify): {netlify_res.summary}")
+        for detail in netlify_res.failure_details:
+            print(f"  • {detail}")
 
     print()
     return 0
